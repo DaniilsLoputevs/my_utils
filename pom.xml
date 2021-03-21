@@ -5,8 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>my_reflection_API</artifactId>
+    <artifactId>my_utils</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Custom_component_Scan</module> <!-- dropped -->
+        <module>Custom_logger</module>  <!-- realised -->
+        <module>Hibernate_self_template</module> <!-- realised -->
+        <module>Other_code</module>
+        <module>Reflection_code</module> <!-- realised -->
+        <module>Script_in_runtime</module> <!-- dropped -->
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
