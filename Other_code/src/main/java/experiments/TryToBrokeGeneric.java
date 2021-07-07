@@ -1,3 +1,5 @@
+package experiments;
+
 import java.util.List;
 
 public class TryToBrokeGeneric {

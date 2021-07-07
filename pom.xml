@@ -14,7 +14,9 @@
         <module>Hibernate_self_template</module> <!-- realised -->
         <module>Other_code</module>
         <module>Reflection_code</module> <!-- realised -->
-        <module>Script_in_runtime</module> <!-- dropped -->
+        <module>Script_in_runtime</module>
+        <module>Apache_poi</module>
+        <module>logger</module> <!-- dropped -->
     </modules>
 
     <properties>
