@@ -46,7 +46,7 @@ public class ReflectionSounding {
     @SneakyThrows
     private static void collectFields(StringBuilder sb, Object obj, Field[] fields, String lvlOffset) {
         for (var f : fields) {
-            System.out.println("DEV :: getDeclaringClass = " + f.getDeclaringClass());
+//            System.out.println("DEV :: getDeclaringClass = " + f.getDeclaringClass());
             sb.append(LS).append(lvlOffset);
             // access modifier
 //            sb.append(findAccessModifier(f)).append(" ");
