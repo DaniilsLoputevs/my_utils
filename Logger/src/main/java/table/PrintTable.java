@@ -4,42 +4,53 @@ import lombok.val;
 import lombok.var;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
+/**
+ * TODO : сделать цвет по возможности - проблема line size + formatter
+ *
+ * @version 2.0
+ */
 public class PrintTable<T> {
     public static void main(String[] args) {
         
         System.out.println(new Timestamp(System.currentTimeMillis()));
-        val one = new User(1, "Anja", "Q1w2e3r4", 66.0);
-        val two = new User(269, "Sveta", "Q1w2e3r4", 75.0);
-        val three = new User(337, "Julja", "Q1w2e3r4", 59.5);
+        val one = new User(1, "Anja", "1-5", 214.0);
+        val two = new User(269, "Sveta", "1-9", 197.0);
+        val three = new User(337, "Julja", "4-11", 205.5);
         
-        val table = PrintTable
+        PrintTable
                 .of(Arrays.asList(one, two, three))
-                .addColumn("ID", "%-10s", User::getId)
-                .addColumn("NAME", "%-2s", User::getName, PrintTable.Colour.CYAN)
-                .addColumn("PASSWORD", "%-10s", User::getPassword, PrintTable.Colour.RED)
-                .addColumn("PRICE", "%-6s", User::getBalance);
-        System.out.println(table);
+                .name("HR")
+                .addColumn("ID", "-4", User::getId)
+                .addColumn("NAME", "-5", User::getName)
+                .addColumn("YEARS", "-80", User::getYears)
+                .addColumn("PRICE", "-4", User::getPrice)
+                .print();
         
         System.out.println(new Timestamp(System.currentTimeMillis()));
     }
     
+    private String name = "PrintTable<Object>";
     private Iterable<T> content;
+    private Function<T, Comparator<T>> sort;
     private final List<Column> columns = new ArrayList<>();
     
     private static final String LS = System.lineSeparator();
-    private static final String EL = "*EMPTY_LINE*";
+    private static final String SL = "*SL*";
     
     public static <T> PrintTable<T> of(Iterable<T> content) {
         var rsl = new PrintTable<T>();
         rsl.content = content;
         return rsl;
     }
+    
+    public PrintTable<T> name(String tableName) {
+        this.name = tableName;
+        return this;
+    }
+   
     
     public PrintTable<T> addColumn(String name, String pattern, Function<T, Object> getValue) {
         columns.add(new Column(name, pattern, getValue, Colour.DEFAULT));
@@ -53,22 +64,28 @@ public class PrintTable<T> {
     
     @Override
     public String toString() {
-        var rsl = new StringBuilder();
-        var formatter = new Formatter(rsl);
+        val rsl = new StringBuilder();
+        val formatter = new Formatter(rsl);
         
-        var alignFormatTemp = new StringBuilder("| ");
-        var headerTemp = new StringBuilder("| ");
+        val alignFormatSB = new StringBuilder("| ");
+        val columnNames = new ArrayList<String>(columns.size());
+        
         columns.forEach(column -> {
-            alignFormatTemp.append(column.pattern).append(" | ");
-            headerTemp.append(column.name).append(" | ");
+            alignFormatSB.append(column.pattern).append(" | ");
+            columnNames.add(column.name);
         });
-        var alignFormat = alignFormatTemp.append("%n").toString();
-        var header = headerTemp.toString();
         
+        val alignLength = alignFormatSB.length();
+        alignFormatSB.delete(alignLength - 1, alignLength);
+        var alignFormat = alignFormatSB.append("%n").toString();
         
-        rsl.append(EL).append(LS);
-        rsl.append(header).append(LS);
-        rsl.append(EL).append(LS);
+        val headerSB = new StringBuilder();
+        new Formatter(headerSB).format(alignFormat, columnNames.toArray());
+        val header = headerSB.toString();
+        
+        rsl.append(SL).append(LS);
+        rsl.append(header);
+        rsl.append(SL).append(LS);
         
         content.forEach(data -> {
             var args = new ArrayList<>(columns.size());
@@ -77,18 +94,27 @@ public class PrintTable<T> {
             formatter.format(alignFormat, args.toArray());
         });
         
-        rsl.append(EL).append(LS);
+        rsl.append(SL).append(LS);
         
-        return rsl.toString().replace(EL, repeatChar('-', header.length()));
+        return rsl.toString().replace(SL, repeatChar('-', header.length() - 2));
+    }
+    
+    public void print() {
+        val r = new StringJoiner(System.lineSeparator())
+                .add(name)
+                .add(this.toString());
+        System.out.println(r);
     }
     
     private String repeatChar(char c, int times) {
         var rsl = new StringBuilder();
-        System.out.println(times + " ");
-        for (int i = 0; i < times; i++) {
-            System.out.println(i);
+        rsl.append('+');
+//        System.out.println(times + " ");
+        for (int i = 1; i < times - 1; i++) {
+//            System.out.println(i);
             rsl.append(c);
         }
+        rsl.append('+');
         return rsl.toString();
     }
     
@@ -101,11 +127,11 @@ public class PrintTable<T> {
         
         public Column(String name, String pattern, Function<T, Object> getValue, Colour colour) {
             this.name = name;
-//                this.pattern = "%" + pattern + "s";
-            this.pattern = pattern;
+            this.pattern = "%" + pattern + "s";
+//            this.pattern = pattern;
             this.getValue = getValue;
             this.colour = colour;
-            System.out.println("pattern = " + this.pattern);
+//            System.out.println("pattern = " + this.pattern);
         }
     }
     
@@ -155,33 +181,3 @@ public class PrintTable<T> {
 }
 
 
-class User {
-    private final int id;
-    private final String name;
-    private final String password;
-    private final Double balance;
-    
-    public User(int id, String name, String password, Double balance) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.balance = balance;
-    }
-    
-    public int getId() {
-        return id;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public Double getBalance() {
-        return balance;
-    }
-    
-}
