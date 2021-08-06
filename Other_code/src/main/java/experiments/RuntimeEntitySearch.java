@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import static experiments.RuntimeEntitySearch.findAndShow;
 
 public class RuntimeEntitySearch {
+    private static final Map<String, Function<String, List<?>>> patterns = new HashMap<>();
     public static EntityStore<NPC> npc = new EntityStore<>();
     public static EntityStore<WPN> wpn = new EntityStore<>();
     
@@ -16,8 +17,6 @@ public class RuntimeEntitySearch {
         new NPC(1, "enemy", new WPN(1, "AK-47", 67.00));
         new NPC(2, "enemy-1", new WPN(2, "AWP", 1000.00));
     }
-    
-    private static final Map<String, Function<String, List<?>>> patterns = new HashMap<>();
     
     {
         patterns.put("npc:1", (arg) -> npc.find(npc -> npc.id == Integer.parseInt(arg)));
@@ -55,16 +54,15 @@ public class RuntimeEntitySearch {
 //
 //    var scn = new Scanner(System.in);
 //        System.out.println(debug.find(scn.nextLine()).getClass().getName());
-    
-    
-    
+        
+        
         var debug = new Debug();
         debug.AsyncStart();
         
         new NPC(0, "player", new WPN(0, "AWP", 1000.00));
         new NPC(1, "enemy", new WPN(1, "AK-47", 67.00));
         new NPC(2, "enemy-1", new WPN(2, "AWP", 1000.00));
-        
+
 //        Thread.sleep(1000_000_000L);
         
         var time = Long.valueOf(Long.MIN_VALUE);

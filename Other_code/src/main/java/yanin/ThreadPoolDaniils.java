@@ -9,46 +9,6 @@ public class ThreadPoolDaniils {
     private final SimpleBlockingQueueDaniils<Runnable> tasks = new SimpleBlockingQueueDaniils<>();
     private final Object syncObj = new Object();
     
-    public void init() {
-        for (int i = 0; i < threadCount; i++) {
-            
-            threads.add(new Thread(() -> {
-                int taskCount = tasks.getSize();
-                while (true) {
-                    try {
-                        while (!tasks.isEmpty()) {
-                            tasks.poll().run();
-                            if (Thread.interrupted()) break;
-                        }
-                        if (Thread.interrupted()) break;
-                        if (taskCount == tasks.getSize())
-//                        Thread.sleep(1 * 1000);
-                        syncObj.wait();
-                    } catch (InterruptedException e) {
-                        break;
-//                        System.out.println("ThreadPoolDaniils.init() :: Thread interrupted: " + Thread.currentThread().getName());
-//                        e.printStackTrace();
-                    }
-                }
-                
-            }, "Poll thread #" + i));
-        }
-        threads.forEach(Thread::start);
-    }
-    
-    public void work(Runnable job) {
-        tasks.offer(job);
-//        for (var t : threads) {
-//
-//        }
-//        threads.forEach(syncObj::notify);
-        syncObj.notifyAll();
-    }
-    
-    public void shutdown() {
-        threads.forEach(Thread::interrupt);
-    }
-    
     public static void main(String[] args) {
         ThreadPoolDaniils threadPool = new ThreadPoolDaniils();
         threadPool.work(createTask(1)); // 1
@@ -98,5 +58,45 @@ public class ThreadPoolDaniils {
             }
             System.out.println("Task #" + taskNum + " - finished! Num = " + rsl);
         };
+    }
+    
+    public void init() {
+        for (int i = 0; i < threadCount; i++) {
+            
+            threads.add(new Thread(() -> {
+                int taskCount = tasks.getSize();
+                while (true) {
+                    try {
+                        while (!tasks.isEmpty()) {
+                            tasks.poll().run();
+                            if (Thread.interrupted()) break;
+                        }
+                        if (Thread.interrupted()) break;
+                        if (taskCount == tasks.getSize())
+//                        Thread.sleep(1 * 1000);
+                            syncObj.wait();
+                    } catch (InterruptedException e) {
+                        break;
+//                        System.out.println("ThreadPoolDaniils.init() :: Thread interrupted: " + Thread.currentThread().getName());
+//                        e.printStackTrace();
+                    }
+                }
+                
+            }, "Poll thread #" + i));
+        }
+        threads.forEach(Thread::start);
+    }
+    
+    public void work(Runnable job) {
+        tasks.offer(job);
+//        for (var t : threads) {
+//
+//        }
+//        threads.forEach(syncObj::notify);
+        syncObj.notifyAll();
+    }
+    
+    public void shutdown() {
+        threads.forEach(Thread::interrupt);
     }
 }

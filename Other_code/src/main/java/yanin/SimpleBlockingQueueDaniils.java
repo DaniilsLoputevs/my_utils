@@ -6,7 +6,8 @@ import java.util.Queue;
 public class SimpleBlockingQueueDaniils<T> {
     
     private final Queue<T> queue = new LinkedList<>();
-//    private int lastIndexTook = -1;
+    
+    //    private int lastIndexTook = -1;
     public SimpleBlockingQueueDaniils() {
     }
     
@@ -29,8 +30,8 @@ public class SimpleBlockingQueueDaniils<T> {
 //            while (queue.isEmpty()) {
 //                wait();
 //            }
-            value = queue.poll();
-            notifyAll();
+        value = queue.poll();
+        notifyAll();
 //        } catch (InterruptedException e) {
 //            System.out.println("SimpleBlockingQueueDaniils.offer() :: Thread interrupted: " + Thread.currentThread().getName());
 //            e.printStackTrace();

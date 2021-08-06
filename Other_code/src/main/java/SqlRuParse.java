@@ -19,7 +19,7 @@ import static java.util.Map.entry;
  */
 public class SqlRuParse {
     private static final Logger LOG = LoggerFactory.getLogger(SqlRuParse.class);
-
+    
     private static final Map<String, String> MONTHS = Map.ofEntries(
             entry("янв", "янв."),
             entry("фев", "февр."),
@@ -34,7 +34,7 @@ public class SqlRuParse {
             entry("ноя", "нояб."),
             entry("дек", "дек.")
     );
-
+    
     public static void main(String[] args) throws Exception {
         Document doc = Jsoup.connect("https://www.sql.ru/forum/job-offers").get();
         Elements row = doc.select(".postslisttopic");
@@ -47,7 +47,7 @@ public class SqlRuParse {
             if (iterator.hasNext()) {
                 iterator.next();
                 Element d = iterator.next();
-
+                
                 LOG.info("NEW");
                 LOG.info("arg: {}", d.text());
 //                LocalDate localDate = changeData(d.text());
@@ -58,7 +58,7 @@ public class SqlRuParse {
             }
         }
     }
-
+    
     /**
      * 2 options for arguments:
      * option 1:
@@ -88,8 +88,8 @@ public class SqlRuParse {
             return LocalDate.parse(txt, formatter);
         }
     }
-
-
+    
+    
     public static LocalDate changeData(String s) {
         String old = null, exchange = null;
         if (s.contains("сегодня") || s.contains("вчера")) {
@@ -107,7 +107,7 @@ public class SqlRuParse {
                 }
             }
         }
-
+        
         LOG.info("old {}", old);
         LOG.info("exchange {}", exchange);
         String txt = s.replace(old, exchange);
@@ -115,6 +115,6 @@ public class SqlRuParse {
                 "d MMM yy, HH:mm", new Locale("ru"));
         return LocalDate.parse(txt, formatter);
     }
-
-
+    
+    
 }

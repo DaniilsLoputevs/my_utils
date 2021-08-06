@@ -31,33 +31,9 @@ public class Main {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 abstract class AbsCache {
     abstract Object get(String key);
 }
-
 
 
 class Cache extends AbsCache {
@@ -70,17 +46,15 @@ class Cache extends AbsCache {
 
 
 class Emulator {
-    private Cache cache = new Cache();
-    
-    public Object get(String key) {
-        return cache.get(key);
-    }
-    
-    
+    private final Cache cache = new Cache();
     
     public static void main(String[] args) {
         var emulator = new Emulator();
         emulator.get("");
+    }
+    
+    public Object get(String key) {
+        return cache.get(key);
     }
 }
 

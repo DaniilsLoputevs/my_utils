@@ -38,10 +38,8 @@ public class Emulator {
     public String get(String key) {
         return dirFileCache.get(key);
     }
-    
-    
-    
-    
+
+
 //    public static void main(String[] args) {
 //        String opisanie = "Столица автоматически переходит в Васюки. " +
 //                "Сюда приезжает правительство. " +

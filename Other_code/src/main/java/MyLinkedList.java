@@ -2,29 +2,9 @@ import java.util.*;
 
 public class MyLinkedList<E> implements List<E> {
     
-    private class Node {
-        public E data;
-        public Node next;
-        
-        public Node(E data) {
-            this.data = data;
-            this.next = null;
-        }
-        
-        @SuppressWarnings("unused")
-        public Node(E data, Node next) {
-            this.data = data;
-            this.next = next;
-        }
-        
-        public String toString() {
-            return "Node(" + data.toString() + ")";
-        }
-    }
-    
     private int size;            // отслеживает колличество элементов
     private Node head;           // ссылается на первый узел
-    
+
     public static void main(String[] args) {
         // run a few simple tests
         List<Integer> mll = new MyLinkedList<Integer>();
@@ -84,11 +64,8 @@ public class MyLinkedList<E> implements List<E> {
         System.out.println(str);
         
         
-        
-        
-        
-        var list = List.of(1,3);
-        var elements = List.of(1,2,3);
+        var list = List.of(1, 3);
+        var elements = List.of(1, 2, 3);
         elements.forEach(each -> list.remove(each));
         elements.forEach(list::remove);
         
@@ -346,5 +323,25 @@ public class MyLinkedList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] a) {
         throw new UnsupportedOperationException();
+    }
+    
+    private class Node {
+        public E data;
+        public Node next;
+        
+        public Node(E data) {
+            this.data = data;
+            this.next = null;
+        }
+        
+        @SuppressWarnings("unused")
+        public Node(E data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+        
+        public String toString() {
+            return "Node(" + data.toString() + ")";
+        }
     }
 }

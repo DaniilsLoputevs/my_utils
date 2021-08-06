@@ -126,20 +126,6 @@ public class Analize {
     }
     
     /**
-     * Это local private class, тут можно и без getters&setters.
-     */
-    private static class Diapason {
-        private String start;
-        private String end;
-        
-        @Override
-        public String toString() {
-            return start + ';' + end;
-        }
-    }
-    
-    
-    /**
      * Метод main - записывает текст в файл "unavailable.csv"
      *
      * @param args
@@ -164,7 +150,20 @@ public class Analize {
         }
         
         Analize analize = new Analize();
-        analize.unavailable("unavailable.txt", "targetFile.txt");
+        unavailable("unavailable.txt", "targetFile.txt");
+    }
+    
+    /**
+     * Это local private class, тут можно и без getters&setters.
+     */
+    private static class Diapason {
+        private String start;
+        private String end;
+        
+        @Override
+        public String toString() {
+            return start + ';' + end;
+        }
     }
     
 }

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class DateParsing {
-    private static final Map<String, String > MONTHS = Map.ofEntries(
+    private static final Map<String, String> MONTHS = Map.ofEntries(
             Map.entry("янв", "01"),
             Map.entry("фев", "02"),
             Map.entry("мар", "03"),

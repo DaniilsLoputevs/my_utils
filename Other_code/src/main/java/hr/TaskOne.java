@@ -10,8 +10,8 @@ public class TaskOne {
     public static void main(String[] args) {
 
 //        var t = Stream.of()
-        
-        
+
+
 //        var fac = new GoldFactory();
 //        var scopeTwo = new ObjectScope<>(fac);
 //        scopeTwo.exe(f -> {
@@ -29,24 +29,24 @@ public class TaskOne {
 //        list.add("3");
 //        list.add("4");
 //        list.forEach(System.out::println);
-      
-        
+    
         
     }
 }
+
 class ObjectScope<T> {
     private final T object;
     private final List<Consumer<T>> codeParts = new ArrayList<>();
-    
-    public static <T> ObjectScope<T> of(T target) {
-        return new ObjectScope<>(target);
-    }
     
     public ObjectScope(T object) {
         this.object = object;
     }
     
-//    public void add(Consumer<T>[] parts) {
+    public static <T> ObjectScope<T> of(T target) {
+        return new ObjectScope<>(target);
+    }
+    
+    //    public void add(Consumer<T>[] parts) {
 //        Collections.addAll(codeParts, parts);
 //    }
 //    public void exe() {
@@ -59,6 +59,7 @@ class ObjectScope<T> {
         code.accept(object);
         return object;
     }
+    
     public void exe(Consumer<T>... parts) {
         for (var part : parts) {
             part.accept(object);
@@ -77,10 +78,12 @@ class ListScope<T> {
     public void add(Consumer<T>[] parts) {
         Collections.addAll(codeParts, parts);
     }
+    
     public void exe() {
         objects.forEach(obj -> codeParts.forEach(part -> part.accept(obj)));
     }
 }
+
 class GoldFactory {
     public String name;
     public int goldTotal;

@@ -9,13 +9,13 @@ public class LambdaTry {
     public static void main(String[] args) {
         //        var stream = Stream.of("111", "222", "333", "444", "555", "666");
         Supplier<Stream<String>> supplier = () -> Stream.of("111", "222", "333", "444", "555", "666");
-    
+        
         var u = String.join(", ", supplier.get().collect(Collectors.toList()));
         System.out.println("first   = " + u);
-    
-        var v =  supplier.get().collect(Collectors.joining(", "));
-        System.out.println("second  = " + v);
         
+        var v = supplier.get().collect(Collectors.joining(", "));
+        System.out.println("second  = " + v);
+
 //        var s =  supplier.get().reduce(new Yup(),  (one, two) -> one + two);
 //        System.out.println("third   = " + s);
 
@@ -43,7 +43,7 @@ public class LambdaTry {
             }
         });
         
-        var list = List.of(1,2,3);
+        var list = List.of(1, 2, 3);
         
         for (var number : list) {
             System.out.println(number);

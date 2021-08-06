@@ -7,9 +7,9 @@ import java.io.IOException;
  * THis class requires library: apache commons-fileupload
  * mvn dep:
  * <dependency>
- *   <groupId>commons-fileupload</groupId>
- *   <artifactId>commons-fileupload</artifactId>
- *   <version>1.4</version>
+ * <groupId>commons-fileupload</groupId>
+ * <artifactId>commons-fileupload</artifactId>
+ * <version>1.4</version>
  * </dependency>
  */
 public class SerializeFile {
@@ -22,9 +22,9 @@ public class SerializeFile {
         }
         return rsl;
     }
-
+    
     /* --- commented because it should be useful --- */
-
+    
     public static File bytesToFile(String path, byte[] fileBytes) {
         File rsl = new File(path);
         try {

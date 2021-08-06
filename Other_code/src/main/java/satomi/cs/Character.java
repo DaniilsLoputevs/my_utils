@@ -15,11 +15,12 @@ public abstract class Character {
         secondaryWeapon = null;
         return rsl;
     }
+    
     public void pickUpWeapons(List<Weapon> weapons) {
-        weapons.forEach( w -> {
+        weapons.forEach(w -> {
             if (primaryWeapon == null && w instanceof PrimaryWeapon) {
                 setPrimaryWeapon((PrimaryWeapon) w);
-            } else  if ( secondaryWeapon == null && w instanceof SecondaryWeapon) {
+            } else if (secondaryWeapon == null && w instanceof SecondaryWeapon) {
                 setSecondaryWeapon((SecondaryWeapon) w);
             }
         });

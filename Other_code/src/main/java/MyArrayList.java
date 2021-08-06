@@ -3,8 +3,8 @@ import java.util.*;
 public class MyArrayList<T> implements List<T> {
     int size;                    // keeps track of the number of elements
     private T[] array;           // stores the elements
-
-
+    
+    
     public MyArrayList() {
         // You can't instantiate an array of T[], but you can instantiate an
         // array of Object and then typecast it.  Details at
@@ -12,7 +12,7 @@ public class MyArrayList<T> implements List<T> {
         array = (T[]) new Object[10];
         size = 0;
     }
-
+    
     /**
      * @param args
      */
@@ -29,7 +29,7 @@ public class MyArrayList<T> implements List<T> {
         mal.remove(1);
         System.out.println(Arrays.toString(mal.toArray()) + " array[1/] " + mal.get(1));
     }
-
+    
     @Override
     public boolean add(T element) {
         if (size >= array.length) {
@@ -42,7 +42,7 @@ public class MyArrayList<T> implements List<T> {
         size++;
         return true;
     }
-
+    
     @Override
     public void add(int index, T element) {
         if (index < 0 || index > size) {
@@ -50,7 +50,7 @@ public class MyArrayList<T> implements List<T> {
         }
         // добавить элементы для изменения размера
         add(element);
-
+        
         // смещение других еэементов
         for (int i = size - 1; i > index; i--) {
             array[i] = array[i - 1];
@@ -58,7 +58,7 @@ public class MyArrayList<T> implements List<T> {
         // помещяаем новый элемент в нужное место
         array[index] = element;
     }
-
+    
     @Override
     public boolean addAll(Collection<? extends T> collection) {
         boolean flag = true;
@@ -67,24 +67,24 @@ public class MyArrayList<T> implements List<T> {
         }
         return flag;
     }
-
+    
     @Override
     public boolean addAll(int index, Collection<? extends T> collection) {
         throw new UnsupportedOperationException();
     }
-
+    
     @Override
     public void clear() {
         // note: this version does not actually null out the references
         // in the array, so it might delay garbage collection.
         size = 0;
     }
-
+    
     @Override
     public boolean contains(Object obj) {
         return indexOf(obj) != -1;
     }
-
+    
     @Override
     public boolean containsAll(Collection<?> collection) {
         for (Object element : collection) {
@@ -94,7 +94,7 @@ public class MyArrayList<T> implements List<T> {
         }
         return true;
     }
-
+    
     @Override
     public T get(int index) {
         if (index < 0 || index >= size) {
@@ -102,7 +102,7 @@ public class MyArrayList<T> implements List<T> {
         }
         return array[index];
     }
-
+    
     /**
      * Возвращает индекс первого вхождения или -1 если не содержит этот елемент в списке
      *
@@ -119,7 +119,7 @@ public class MyArrayList<T> implements List<T> {
         }
         return -1;
     }
-
+    
     /**
      * Checks whether an element of the array is the target.
      * <p>
@@ -135,12 +135,12 @@ public class MyArrayList<T> implements List<T> {
             return target.equals(element);
         }
     }
-
+    
     @Override
     public boolean isEmpty() {
         return size == 0;
     }
-
+    
     @Override
     public Iterator<T> iterator() {
         // make a copy of the array
@@ -148,7 +148,7 @@ public class MyArrayList<T> implements List<T> {
         // make a list and return an iterator
         return Arrays.asList(copy).iterator();
     }
-
+    
     @Override
     public int lastIndexOf(Object target) {
         // see notes on indexOf
@@ -159,7 +159,7 @@ public class MyArrayList<T> implements List<T> {
         }
         return -1;
     }
-
+    
     @Override
     public ListIterator<T> listIterator() {
         // make a copy of the array
@@ -167,7 +167,7 @@ public class MyArrayList<T> implements List<T> {
         // make a list and return an iterator
         return Arrays.asList(copy).listIterator();
     }
-
+    
     @Override
     public ListIterator<T> listIterator(int index) {
         // make a copy of the array
@@ -175,7 +175,7 @@ public class MyArrayList<T> implements List<T> {
         // make a list and return an iterator
         return Arrays.asList(copy).listIterator(index);
     }
-
+    
     @Override
     public boolean remove(Object obj) {
         int index = indexOf(obj);
@@ -185,7 +185,7 @@ public class MyArrayList<T> implements List<T> {
         remove(index);
         return true;
     }
-
+    
     /**
      * Удаляет элемент в указанной позиции в этом списке (дополнительная операция).
      * Сдвигает любые последующие элементы влево (вычитает единицу из их индексов).
@@ -201,13 +201,13 @@ public class MyArrayList<T> implements List<T> {
         }
         T rsl = get(index);
         for (int i = index; i < size - 1; i++) {
-            array[index] = array[i+1];
-
+            array[index] = array[i + 1];
+            
         }
         size--;
         return rsl;
     }
-
+    
     @Override
     public boolean removeAll(Collection<?> collection) {
         boolean flag = true;
@@ -216,12 +216,12 @@ public class MyArrayList<T> implements List<T> {
         }
         return flag;
     }
-
+    
     @Override
     public boolean retainAll(Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
-
+    
     /**
      * @param index   индекс изменяемого элемнта
      * @param element элемент, который будет сохранени в указанной позиции
@@ -233,12 +233,12 @@ public class MyArrayList<T> implements List<T> {
         array[index] = element;
         return old;
     }
-
+    
     @Override
     public int size() {
         return size;
     }
-
+    
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
@@ -247,12 +247,12 @@ public class MyArrayList<T> implements List<T> {
         T[] copy = Arrays.copyOfRange(array, fromIndex, toIndex);
         return Arrays.asList(copy);
     }
-
+    
     @Override
     public Object[] toArray() {
         return Arrays.copyOf(array, size);
     }
-
+    
     @Override
     public <U> U[] toArray(U[] array) {
         throw new UnsupportedOperationException();

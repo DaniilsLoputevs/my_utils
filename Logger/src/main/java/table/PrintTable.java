@@ -50,7 +50,6 @@ public class PrintTable<T> {
         this.name = tableName;
         return this;
     }
-   
     
     public PrintTable<T> addColumn(String name, String pattern, Function<T, Object> getValue) {
         columns.add(new Column(name, pattern, getValue, Colour.DEFAULT));

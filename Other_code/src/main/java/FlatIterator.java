@@ -28,6 +28,17 @@ public class FlatIterator<T> implements Iterator<T> {
         this.insideIterator = globalIterator.next();
     }
     
+    public static void main(String[] args) {
+        Iterator<Iterator<Integer>> data = List.of(
+                List.of(1, 2, 3).iterator(),
+                List.of(4, 5, 6).iterator(),
+                List.of(7, 8, 9).iterator()
+        ).iterator();
+        FlatIterator<Integer> flat = new FlatIterator<>(data);
+        while (flat.hasNext()) {
+            System.out.println(flat.next());
+        }
+    }
     
     @Override
     public boolean hasNext() {
@@ -51,18 +62,6 @@ public class FlatIterator<T> implements Iterator<T> {
             throw new NoSuchElementException();
         }
         return insideIterator.next();
-    }
-    
-    public static void main(String[] args) {
-        Iterator<Iterator<Integer>> data = List.of(
-                List.of(1, 2, 3).iterator(),
-                List.of(4, 5, 6).iterator(),
-                List.of(7, 8, 9).iterator()
-        ).iterator();
-        FlatIterator<Integer> flat = new FlatIterator<>(data);
-        while (flat.hasNext()) {
-            System.out.println(flat.next());
-        }
     }
     
 }

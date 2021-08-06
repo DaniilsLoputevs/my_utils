@@ -13,14 +13,23 @@ import java.util.StringJoiner;
 public class Config {
     private final String path;
     private final Map<String, String> values = new HashMap<String, String>();
-
+    
     public Config(final String path) {
         this.path = path;
     }
-
+    
     //TODO Напишите тест ConfigTest.
     // Реализуйте метод load по аналогии с методом toString.
-
+    
+    public static void main(String[] args) {
+        // System.out.println(new Config("app.properties"));
+        Config config = new Config("app.properties");
+        config.load();
+        
+        System.out.println(config.values);
+        System.out.println(config.value("hibernate.dialect"));
+    }
+    
     /**
      * Метод load - должен считать все ключи в карту values.
      */
@@ -33,7 +42,7 @@ public class Config {
                             //values.put(spliter[0], null);
                             throw new IllegalArgumentException();
                         } else {
-                        values.put(spliter[0], spliter[1]);
+                            values.put(spliter[0], spliter[1]);
                         }
                         //System.out.println("array :" + spliter[0] + " " + spliter[1]);
                     });
@@ -41,9 +50,10 @@ public class Config {
             e.printStackTrace();
         }
     }
-
+    
     /**
      * Метод возвращает value соотвествующее заданному в параметре ключу.
+     *
      * @param key ключ для поиска
      * @return значение value соотвествующее данному ключу в Map<String, String> values;
      */
@@ -53,9 +63,9 @@ public class Config {
                 return string.getValue();
             }
         }
-        throw  new NoSuchElementException("there is no such element");
+        throw new NoSuchElementException("there is no such element");
     }
-
+    
     @Override
     public String toString() {
         StringJoiner out = new StringJoiner(System.lineSeparator());
@@ -66,14 +76,5 @@ public class Config {
         }
         return out.toString();
     }
-
-    public static void main(String[] args) {
-        // System.out.println(new Config("app.properties"));
-        Config config = new Config("app.properties");
-        config.load();
-
-        System.out.println(config.values);
-        System.out.println(config.value("hibernate.dialect"));
-    }
-
+    
 }
