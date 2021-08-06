@@ -10,6 +10,9 @@ import java.util.List;
 
 import static java.util.Calendar.AUGUST;
 
+/**
+ * Test merge int current
+ */
 public class MainService {
     private final List<FoodStore> storages = List.of(
             new Shop(),
