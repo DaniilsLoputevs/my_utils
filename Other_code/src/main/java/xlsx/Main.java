@@ -26,12 +26,7 @@ public class Main {
         new Main().doReport();
     }
     
-    // TODO : merged regions
-    // TODO : how to get cellStyle
-    // TODO : all data types cast
-    // TODO :
     public void doReport() {
-//        val headerStyle = new XSSFCellStyle();
         val report = new ExcelBook()
                 .addBlock(new ExcelBlock<>(DEV_DATA)
                         .addColumn("ID", null, User::getId)

@@ -19,10 +19,17 @@ public class ManualRun {
 //        check(80, 100, true);
 //        check(80, 70, false);
 //        check(80, 80, true);
-        Long rsl = null;
-        Double not = null;
-        accept(rsl);
-        accept(not);
+//        Long rsl = null;
+//        Double not = null;
+//        accept(rsl);
+//        accept(not);
+        val  email = "aaa, bbb,   ccc";
+    
+//        System.out.println(Arrays.toString(email.trim().split(",")));
+        for (val s : email.replace(" ", "").split(",")) {
+            System.out.println(String.format("\"%s\"", s));
+        }
+        
     }
     
     private static void accept(Long id) {

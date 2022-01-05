@@ -1,4 +1,4 @@
-package xlsx;
+package xlsx.core;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

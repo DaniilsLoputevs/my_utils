@@ -1,4 +1,4 @@
-package xlsx;
+package xlsx.core;
 
 import lombok.Builder;
 import org.apache.poi.ss.usermodel.CellStyle;
