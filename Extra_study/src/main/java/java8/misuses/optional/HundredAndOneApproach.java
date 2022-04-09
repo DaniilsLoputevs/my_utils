@@ -1,11 +1,12 @@
 package java8.misuses.optional;
 
-import java8.structures.Annotations.Bad;
-import java8.structures.Annotations.Ugly;
+import java8.structures.Annotations.*;
 import lombok.val;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class HundredAndOneApproach {
     @Ugly
@@ -61,7 +62,25 @@ public class HundredAndOneApproach {
                     .orElse("Unknown");
         }
     }
-    
+
+    @Good
+    static class UsingFlatMap {
+        public String getCarInsuranceNameFromPersonUsingFlatMap(Person person) {
+            return Optional.ofNullable(person)
+                    .flatMap(Person::getCar)
+                    .flatMap(Car::getInsurance)
+                    .map(Insurance::getName)
+                    .orElse("Unknown");
+        }
+        public String getCarInsuranceNameWithoutOptional(Person1 person) {
+            return Optional.ofNullable(person)
+                    .map(Person1::getCar)
+                    .map(Car1::getInsurance)
+                    .map(Insurance1::getName)
+                    .orElse("Unknown");
+        }
+    }
+
     public static void main(String[] args) {
 //        Optional<Person> person = Optional.of(new Person());
 //        System.out.println(person);
@@ -71,9 +90,13 @@ public class HundredAndOneApproach {
 
         val person = new Person();
         String rsl;
-        rsl = new UsingMapWithUncheckedGet().getPersonCarInsuranceName(person);
+//        rsl = new UsingMapWithUncheckedGet().getPersonCarInsuranceName(person);
+//        System.out.println(rsl);
+//        rsl = new UsingMapWithOrElseEmptyObjectToFixUncheckedGet().getPersonCarInsuranceName(person);
+//        System.out.println(rsl);
+        rsl = new UsingFlatMap().getCarInsuranceNameFromPersonUsingFlatMap(person);
         System.out.println(rsl);
-        rsl = new UsingMapWithOrElseEmptyObjectToFixUncheckedGet().getPersonCarInsuranceName(person);
+        rsl = new UsingFlatMap().getCarInsuranceNameWithoutOptional(new Person1());
         System.out.println(rsl);
 
 //        val map = Map.<String, Object>of();
@@ -87,7 +110,7 @@ public class HundredAndOneApproach {
 //        } else {
 
 //        }
-        
+
     }
     
     static class Person {
@@ -105,6 +128,28 @@ public class HundredAndOneApproach {
     static class Insurance {
         String getName() {
             return ""; //stub
+        }
+    }
+
+    // Not Optional structure
+
+    static class Person1 {
+        Car1 getCar() {
+//            return null; //stub
+            return new Car1(); //stub
+        }
+    }
+
+    static class Car1 {
+        Insurance1 getInsurance() {
+//            return null; //stub
+            return new Insurance1(); //stub
+        }
+    }
+
+    static class Insurance1 {
+        String getName() {
+            return null; //stub
         }
     }
 }
