@@ -73,6 +73,10 @@ public class HundredAndOneApproach {
                     .orElse("Unknown");
         }
 
+    }
+
+    @My
+    static class MyClass {
         public String getCarInsuranceNameIf(Person1 person) {
             if (person != null) {
                 if (person.getCar() != null) {
@@ -99,6 +103,24 @@ public class HundredAndOneApproach {
                     .map(Insurance1::getName)
                     .orElse("Unknown");
         }
+
+        public String getCarInsuranceNameBinaryAnd(Person1 person) {
+            return (person != null
+                    && person.getCar() != null
+                    && person.getCar().getInsurance() != null
+                    && person.getCar().getInsurance().getName() != null)
+                    ? person.getCar().getInsurance().getName()
+                    : "Unknown";
+        }
+
+        public String getCarInsuranceNameBinaryOr(Person1 person) {
+            return (person == null
+                    || person.getCar() == null
+                    || person.getCar().getInsurance() == null
+                    || person.getCar().getInsurance().getName() == null)
+                    ? "Unknown"
+                    : person.getCar().getInsurance().getName();
+        }
     }
 
     public static void main(String[] args) {
@@ -116,7 +138,7 @@ public class HundredAndOneApproach {
 //        System.out.println(rsl);
         rsl = new UsingFlatMap().getCarInsuranceNameFromPersonUsingFlatMap(person);
         System.out.println(rsl);
-        rsl = new UsingFlatMap().getCarInsuranceNameWithoutOptional(new Person1());
+        rsl = new MyClass().getCarInsuranceNameWithoutOptional(new Person1());
         System.out.println(rsl);
 
 //        val map = Map.<String, Object>of();
