@@ -1,0 +1,23 @@
+{
+  "order": [
+    {
+      "field": "clientId",
+      "direction": "ASC"
+    },
+    {
+      "field": "email",
+      "direction": "DESC"
+    }
+  ],
+  "filter": {
+    "date": {
+      "from": "2022-01-30",
+      "to": "2022-01-31"
+    },
+    "id": {
+      "from": 100,
+      "to": 777
+    },
+    "active": true
+  }
+}
