@@ -23,7 +23,7 @@ public class HundredAndOneApproach {
             return name;
         }
     }
-    
+
     @Ugly
     class UsingIfPresentInSameImperativeWayWithDirtyHack {
         public String getPersonCarInsuranceName(Person person) {
@@ -38,7 +38,7 @@ public class HundredAndOneApproach {
             return builder.toString();
         }
     }
-    
+
     @Bad
     static class UsingMapWithUncheckedGet {
         public String getPersonCarInsuranceName(Person person) {
@@ -51,7 +51,7 @@ public class HundredAndOneApproach {
                     .orElse("Unknown");
         }
     }
-    
+
     @Ugly
     static class UsingMapWithOrElseEmptyObjectToFixUncheckedGet {
         public String getPersonCarInsuranceName(Person person) {
@@ -72,6 +72,26 @@ public class HundredAndOneApproach {
                     .map(Insurance::getName)
                     .orElse("Unknown");
         }
+
+        public String getCarInsuranceNameIf(Person1 person) {
+            if (person != null) {
+                if (person.getCar() != null) {
+                    if (person.getCar().getInsurance() != null) {
+                        String name = person.getCar().getInsurance().getName();
+                        return name != null ? name : "Unknown";
+                    } else return "Unknown";
+                } else return "Unknown";
+            } else return "Unknown";
+        }
+
+        public String getCarInsuranceNameIfNot(Person1 person) {
+            if (person == null) return "Unknown";
+            if (person.getCar() == null) return "Unknown";
+            if (person.getCar().getInsurance() == null) return "Unknown";
+            String name = person.getCar().getInsurance().getName();
+            return name != null ? name : "Unknown";
+        }
+
         public String getCarInsuranceNameWithoutOptional(Person1 person) {
             return Optional.ofNullable(person)
                     .map(Person1::getCar)
@@ -112,19 +132,19 @@ public class HundredAndOneApproach {
 //        }
 
     }
-    
+
     static class Person {
         Optional<Car> getCar() {
             return Optional.empty(); //stub
         }
     }
-    
+
     static class Car {
         Optional<Insurance> getInsurance() {
             return Optional.empty(); //stub
         }
     }
-    
+
     static class Insurance {
         String getName() {
             return ""; //stub

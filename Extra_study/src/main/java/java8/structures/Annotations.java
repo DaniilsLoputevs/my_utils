@@ -4,4 +4,5 @@ public class Annotations {
     public @interface Good{}
     public @interface Bad{}
     public @interface Ugly{}
+    public @interface My{}
 }
