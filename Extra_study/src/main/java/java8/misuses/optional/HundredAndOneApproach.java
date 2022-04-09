@@ -2,7 +2,9 @@ package java8.misuses.optional;
 
 import java8.structures.Annotations.Bad;
 import java8.structures.Annotations.Ugly;
+import lombok.val;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class HundredAndOneApproach {
@@ -40,6 +42,8 @@ public class HundredAndOneApproach {
     static class UsingMapWithUncheckedGet {
         public String getPersonCarInsuranceName(Person person) {
             return Optional.ofNullable(person)
+//                    .map(it -> it.getCar().get().getInsurance().get().getName())
+//                    .orElse("")
                     .map(Person::getCar)
                     .map(car -> car.get().getInsurance())
                     .map(insurance -> insurance.get().getName())
@@ -59,11 +63,30 @@ public class HundredAndOneApproach {
     }
     
     public static void main(String[] args) {
+//        Optional<Person> person = Optional.of(new Person());
+//        System.out.println(person);
+//        System.out.println(person.get());
+//        System.out.println(person.get().getCar());
+//        System.out.println(person.get().getCar().get().getInsurance());
+
+        val person = new Person();
         String rsl;
-        rsl = new UsingMapWithUncheckedGet().getPersonCarInsuranceName(null);
+        rsl = new UsingMapWithUncheckedGet().getPersonCarInsuranceName(person);
         System.out.println(rsl);
-        rsl = new UsingMapWithOrElseEmptyObjectToFixUncheckedGet().getPersonCarInsuranceName(null);
+        rsl = new UsingMapWithOrElseEmptyObjectToFixUncheckedGet().getPersonCarInsuranceName(person);
         System.out.println(rsl);
+
+//        val map = Map.<String, Object>of();
+//        Optional.ofNullable(map.get("abc"))
+//                .ifPresentOrElse(obj -> {}, () -> {});
+
+
+//        val rsl = map.get("asdasd");
+//        if (rsl != null) {
+
+//        } else {
+
+//        }
         
     }
     
