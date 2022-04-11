@@ -1,5 +1,6 @@
 package java8.lambda;
 
+import java8.structures.Annotations.Good;
 import java8.structures.Annotations.My;
 import java8.structures.Annotations.Ugly;
 import java8.structures.Permission;
@@ -31,29 +32,31 @@ public class AvoidComplexLambdas {
         }
     }
     
-    @My
+    @My @Good
     static class MyClass {
         public static Set<User> findEditors() {
             return users.stream()
-//                    .filter(MyClass::hasEditPermission)
-//                    .filter(user -> hasEditPermission(user, EDIT))
+                    .filter(MyClass::hasEditPermission)
+                    .filter(user -> hasEditPermission(user, EDIT))
                     .filter(hasPermission(EDIT))
                     .collect(toSet());
         }
+        @My @Good
         public static boolean hasEditPermission(User u) {
             return u.getRoles().stream()
                     .anyMatch(r -> r.getPermissions().contains(Permission.EDIT));
         }
+        @My
         public static boolean hasEditPermission(User u, Permission permission) {
             return u.getRoles().stream()
                     .anyMatch(r -> r.getPermissions().contains(permission));
         }
+        @My @Good
         public static Predicate<User> hasPermission(Permission permission) {
             return u -> u.getRoles().stream()
                     .anyMatch(r -> r.getPermissions().contains(permission));
         }
     }
-    
     public static void main(String[] args) {
         System.out.println(UsingComplexLambdaInPlace.findEditors());
         System.out.println(MyClass.findEditors());

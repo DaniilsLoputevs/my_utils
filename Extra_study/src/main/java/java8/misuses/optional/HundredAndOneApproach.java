@@ -1,12 +1,12 @@
 package java8.misuses.optional;
 
-import java8.structures.Annotations.*;
+import java8.structures.Annotations.Bad;
+import java8.structures.Annotations.Good;
+import java8.structures.Annotations.My;
+import java8.structures.Annotations.Ugly;
 import lombok.val;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class HundredAndOneApproach {
     @Ugly
@@ -99,7 +99,7 @@ public class HundredAndOneApproach {
         public String getCarInsuranceNameWithoutOptional(Person1 person) {
             return Optional.ofNullable(person)
                     .map(Person1::getCar)
-                    .map(Car1::getInsurance)
+                    .map(it -> Optional.ofNullable(it.getInsurance()).orElseThrow(IllegalStateException::new))
                     .map(Insurance1::getName)
                     .orElse("Unknown");
         }
