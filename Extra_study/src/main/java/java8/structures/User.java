@@ -21,4 +21,9 @@ public class User {
         this.name = name;
         this.age = age;
     }
+    
+    public User(Long id, Set<Role> roles) {
+        this.id = id;
+        this.roles = roles;
+    }
 }
