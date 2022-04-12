@@ -1,8 +1,9 @@
-package java8.misuses.optional;
+package java8.misuses.optional.usage;
 
-import java8.structures.Annotations.*;
+import java8.structures.Annotations.Good;
+import java8.structures.Annotations.My;
+import java8.structures.Annotations.Ugly;
 import java8.structures.User;
-import lombok.val;
 
 import java.util.Collections;
 import java.util.List;
