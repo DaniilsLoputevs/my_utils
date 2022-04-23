@@ -1,5 +1,6 @@
-package java8.lambda.collections;
+package java8.misuses.lambda.collections;
 
+import java8.structures.Annotations;
 import java8.structures.Annotations.My;
 import java8.structures.Annotations.Ugly;
 import java8.structures.User;
@@ -37,6 +38,19 @@ public class EmulateMultiMap {
             );
         }
         
+        static public Set<User> getUsersInRole(String role) {
+            return usersByRole.getOrDefault(role, Collections.emptySet());
+        }
+    }
+    
+    @Annotations.Good
+    static class ComputeEmptySetIfKeyIsAbsent {
+        static public void addUser(User user) {
+            user.getRoles().forEach(r -> usersByRole
+                    .computeIfAbsent(r.getName(), k -> new HashSet<>())
+                    .add(user));
+        }
+    
         static public Set<User> getUsersInRole(String role) {
             return usersByRole.getOrDefault(role, Collections.emptySet());
         }

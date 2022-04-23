@@ -26,6 +26,21 @@ package java8.structures;
  * - Лямбды по типу: Predicate, Comparator, ... выносить в класс модель, так можно
  * их Переиспользовать в других местах, а не писать снова.
  * - Для Коллекций из коробки есть удобные методы в классе Comparator, об этом полезно помнить.
+ *
+ * Collections
+ * - List
+ * -- есть removeIf(predicate)
+ *
+ * - Map
+ * -- computeIfAbsent - Если значения нету, то Высчитывает И Привязывает новое значение.
+ * -- getOrDefault - Если значения нету, только отдаёт переданное значение.
+ *
+ * 1 - lombok + spring Qualifier
+ * 2 - http url mapping override?
+ * 3 - delete return old specific object
+ *
+ *
+ * todo - Хочу потыкать Comparator
  */
 public class MetaInfo {
 }

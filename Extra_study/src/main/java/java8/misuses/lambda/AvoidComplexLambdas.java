@@ -1,4 +1,4 @@
-package java8.lambda;
+package java8.misuses.lambda;
 
 import java8.structures.Annotations.Good;
 import java8.structures.Annotations.My;
