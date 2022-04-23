@@ -27,7 +27,13 @@ package java8.structures;
  * их Переиспользовать в других местах, а не писать снова.
  * - Для Коллекций из коробки есть удобные методы в классе Comparator, об этом полезно помнить.
  *
- * Collections
+ * Collections && Stream
+ * - Stream
+ * -- Есть Бесконечные Stream + limit(int count)
+ * --- поддержка reactive Supplier
+ * --- можно сделать Красиво сделать N копий
+ *
+ *
  * - List
  * -- есть removeIf(predicate)
  *
@@ -41,6 +47,8 @@ package java8.structures;
  *
  *
  * todo - Хочу потыкать Comparator
+ * todo - Хочу потыкать Stream.Collectors
+ * todo - 40 minutes
  */
 public class MetaInfo {
 }
