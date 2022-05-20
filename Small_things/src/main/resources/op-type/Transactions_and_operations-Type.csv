@@ -1,0 +1,70 @@
+Group of contracts,Type of contract,Operation type,Operation type,Code of Operation,initiator (System/Manual),Tech,
+"Tier 1, Уровень группы контрактов, например deposit, withdrawal, transfer, trade PM, trade SM.","Tier 2 уровень контрактов. Контракт это новая сущность. Более детально можно посмотреть в этом документе.
+https://docs.google.com/document/d/1cgi4KvnySJbKR-q-hR2PEUob4tEuqFlth77LSUXho0c/edit#",Tier 4,"Tier 4 Уровень action контракта, которые ведут к образовании транзакции или операции","Код операции, для простоты общения.",Инициатор выполниния транзакции (interface или руки разработчика),"OP_Type
+Уникальный тдентификатор операции, не может меняться.",TX_Type
+1. Deposit,1.1. Deposit via Wire transfer,1.1.1.1 Updating clinets balance by wire transfer,Updating clinets balance by wire transfer,1.1.1.1,Interface,_49,_37
+1. Deposit,1.1. Deposit via Wire transfer,1.1.1.2 Updating clinets balance by wire transfer,Updating clinets balance by wire transfer,1.1.1.2,manual,,
+1. Deposit,1.2. Deposit via Card,1.2.1.1 Creating deposit request by card,Creating deposit request by card,1.2.1.1,Interface,_21,_13
+1. Deposit,1.2. Deposit via Card,1.2.1.2 Creating deposit request by card,Creating deposit request by card,1.2.1.2,manual,,
+1. Deposit,1.2. Deposit via Card,1.2.2.1 Updating clinets balance by card,Updating clinets balance by card,1.2.2.1,Interface,_22,_14
+1. Deposit,1.2. Deposit via Card,1.2.2.2 Updating clinets balance by card,Updating clinets balance by card,1.2.2.2,manual,,
+2. Withdrawal,2.1 Withdrawal via Wire transfer,2.1.1.1 Creating withdrawal request,Creating withdrawal request,2.1.1.1,Interface,_42,_31
+2. Withdrawal,2.1 Withdrawal via Wire transfer,2.1.1.2 Creating withdrawal request,Creating withdrawal request,2.1.1.2,manual,,
+2. Withdrawal,2.1 Withdrawal via Wire transfer,2.1.2.1 Withdrawal complete,Withdrawal complete,2.1.2.1,Interface,_44,_33
+2. Withdrawal,2.1 Withdrawal via Wire transfer,2.1.2.2 Withdrawal complete,Withdrawal complete,2.1.2.2,manual,,
+2. Withdrawal,2.1 Withdrawal via Wire transfer,2.1.3.1 Withdrawal comission,Withdrawal comission,2.1.3.1,Interface,_45,_33
+2. Withdrawal,2.1 Withdrawal via Wire transfer,2.1.3.2 Withdrawal comission,Withdrawal comission,2.1.3.2,manual,,
+3. Emission,3.2. Emission of metals,3.2.1.1 Emission of tokens to issuers balance,Emission of tokens to issuers balance,3.2.1.1,Interface,_50,_38
+3. Emission,3.2. Emission of metals,3.2.1.2 Emission of tokens to issuers balance,Emission of tokens to issuers balance,3.2.1.2,manual,,
+3. Emission,3.3. Discharging of metals,3.3.1.1 Discharge tokens from issuers balance,Discharge tokens from issuers balance,3.3.1.1,Interface,_01,_01
+3. Emission,3.3. Discharging of metals,3.3.1.2 Discharge tokens from issuers balance,Discharge tokens from issuers balance,3.3.1.2,manual,,
+4. Transfers,4.1 Transfer from PM to SM,4.1.1.1 Transfer from PM to SM (metal),Transfer from PM to SM (metal),4.1.1.1,Interface,_39,_28
+4. Transfers,4.1 Transfer from PM to SM,4.1.1.2 Transfer from PM to SM (metal),Transfer from PM to SM (metal),4.1.1.2,manual,,
+4. Transfers,4.1 Transfer from PM to SM,4.1.2.1 Transfer from PM to SM (money),Transfer from PM to SM (money),4.1.2.1,Interface,_38,_27
+4. Transfers,4.1 Transfer from PM to SM,4.1.2.2 Transfer from PM to SM (money),Transfer from PM to SM (money),4.1.2.2,manual,,
+4. Transfers,4.2 Transfer from SM to PM,4.2.1.1 Transfer from SM to PM (metal),Transfer from SM to PM (metal),4.2.1.1,Interface,_54,_41
+4. Transfers,4.2 Transfer from SM to PM,4.2.1.2 Transfer from SM to PM (metal),Transfer from SM to PM (metal),4.2.1.2,manual,,
+4. Transfers,4.2 Transfer from SM to PM,4.2.2.1 Transfer from SM to PM (money),Transfer from SM to PM (money),4.2.2.1,Interface,_53,_41
+4. Transfers,4.2 Transfer from SM to PM,4.2.2.2 Transfer from SM to PM (money),Transfer from SM to PM (money),4.2.2.2,manual,,
+4. Transfers,4.3 Transfer from issuer to linked account,4.3.1.1 To transfer money to linked account,To transfer money to linked account,4.3.1.1,Interface,_02,_02
+4. Transfers,4.3 Transfer from issuer to linked account,4.3.1.2 To transfer money to linked account,To transfer money to linked account,4.3.1.2,manual,,
+4. Transfers,4.3 Transfer from issuer to linked account,4.3.2.1 To transfer metal to linked account,To transfer metal to linked account,4.3.2.1,Interface,_48,_36
+4. Transfers,4.3 Transfer from issuer to linked account,4.3.2.2 To transfer metal to linked account,To transfer metal to linked account,4.3.2.2,manual,,
+4. Transfers,4.4 Transfer from linked account to issuer,4.4.1.2 To transfer metal from linked account,To transfer metal from linked account,4.4.1.2,manual,,
+4. Transfers,4.5 Transfer between TM2 clients,4.5.1.2 Transfer metal between clinets,Transfer metal between clinets,4.5.1.2,manual,,
+5. Redemption,5.1. Physicall redemption,5.1.1.1 Creation of Redemption request,Creation of Redemption request,5.1.1.1,Interface,_25,_16
+5. Redemption,5.1. Physicall redemption,5.1.1.2 Creation of Redemption request,Creation of Redemption request,5.1.1.2,manual,,
+5. Redemption,5.1. Physicall redemption,5.1.2.1 Execution of redemption,Execution of redemption,5.1.2.1,Interface,_31,_21
+5. Redemption,5.1. Physicall redemption,5.1.2.2 Execution of redemption,Execution of redemption,5.1.2.2,manual,,
+6. Conversion,6.1. Foreign exchange,6.1.1.1 Fx request creating,Fx request creating,6.1.1.1,Interface,_05,_04
+6. Conversion,6.1. Foreign exchange,6.1.1.2 Fx request creating,Fx request creating,6.1.1.2,manual,,
+6. Conversion,6.1. Foreign exchange,6.1.2.1 FX sending currency to buy from third party to TM2,FX sending currency to buy from third party to TM2,6.1.2.1,Interface,_06,_05
+6. Conversion,6.1. Foreign exchange,6.1.3.1 FX sending currency to sell from TM2 to third party,FX sending currency to sell from TM2 to third party,6.1.3.1,Interface,_07,_06
+6. Conversion,6.1. Foreign exchange,6.1.4.1 FX comission,FX comission,6.1.4.1,Interface,_08,_06
+6. Conversion,6.1. Foreign exchange,6.1.4.2 FX comission,FX comission,6.1.4.2,manual,,
+6. Conversion,6.1. Foreign exchange,6.1.5.1 Fx Seinding money to client,Fx Seinding money to client,6.1.5.1,Interface,_09,_06
+6. Conversion,6.1. Foreign exchange,6.1.5.2 Fx Seinding money to client,Fx Seinding money to client,6.1.5.2,manual,,
+7.Trading Primary market,"7.1.Trading, Primary market, Sell side","7.1.1.1 Offer placement, Sell side","Offer placement, Sell side",7.1.1.1,Interface,_46,_34
+7.Trading Primary market,"7.1.Trading, Primary market, Sell side","7.1.1.2 Offer placement, Sell side","Offer placement, Sell side",7.1.1.2,manual,,
+7.Trading Primary market,"7.1.Trading, Primary market, Sell side","7.1.2.1 Offer cancellation, Sell side","Offer cancellation, Sell side",7.1.2.1,Interface,_10,_07
+7.Trading Primary market,"7.1.Trading, Primary market, Sell side","7.1.2.2 Offer cancellation, Sell side","Offer cancellation, Sell side",7.1.2.2,manual,,
+7.Trading Primary market,"7.1.Trading, Primary market, Sell side","7.1.3.1 Offer execution, Sell side receiving money","Offer execution, Sell side receiving money",7.1.3.1,Interface,_14,_10
+7.Trading Primary market,"7.1.Trading, Primary market, Sell side","7.1.3.2 Offer execution, Sell side, receiving money","Offer execution, Sell side, receiving money",7.1.3.2,manual,,
+7.Trading Primary market,"7.2.Trading, Primary market, buy side","7.2.1.1 Offer execution buy side, sending money","Offer execution buy side, sending money",7.2.1.1,Interface,_11,_08
+7.Trading Primary market,"7.2.Trading, Primary market, buy side","7.2.1.2 Offer execution buy side, sending money","Offer execution buy side, sending money",7.2.1.2,manual,,
+7.Trading Primary market,"7.2.Trading, Primary market, buy side","7.2.2.1 Offer execution buy side, receiving metal","Offer execution buy side, receiving metal",7.2.2.1,Interface,_13,_10
+7.Trading Primary market,"7.2.Trading, Primary market, buy side","7.2.2.2 Offer execution buy side, receiving metal","Offer execution buy side, receiving metal",7.2.2.2,manual,,
+7.Trading Primary market,7.3. Offer execution Platform,7.3.1.1 Fee collection,Fee collection,7.3.1.1,Interface,_16,_10
+7.Trading Primary market,7.3. Offer execution Platform,7.3.1.2 Fee collection,Fee collection,7.3.1.2,manual,,
+7.Trading Primary market,7.3. Offer execution Platform,7.3.2.1 Royalty fee,Royalty fee,7.3.2.1,Interface,_17,_10
+7.Trading Primary market,7.3. Offer execution Platform,7.3.2.2 Royalty fee,Royalty fee,7.3.2.2,manual,,
+8.Trading Secondary market,"8.1.Trading, Secondary market, Sell side",8.1.1.1 Offer execution buy side,Offer execution buy side,8.1.1.1,Interface,,
+8.Trading Secondary market,"8.1.Trading, Secondary market, Sell side",8.1.2.1 Fee collection buy side,Fee collection buy side,8.1.2.1,Interface,_35,_24
+8.Trading Secondary market,"8.2.Trading, Secondary market, Buy side",8.2.1.1 Offer execution buy side,Offer execution buy side,8.2.1.1,Interface,,
+8.Trading Secondary market,"8.2.Trading, Secondary market, Buy side",8.2.2.1 Fee collection sell side,Fee collection sell side,8.2.2.1,Interface,,
+8.Trading Secondary market,8.1. Secondary market,8.1.1.1 Fee collection,Fee collection,8.1.1.1,Interface,,
+8.Trading Secondary market,8.1. Secondary market,8.1.1.2 Fee collection,Fee collection,8.1.1.2,manual,,
+9.OTC Trades,9.1. OTC selling metals,"9.1.1.2 OTC, selling metals, offer creation","OTC, selling metals, offer creation",9.1.1.2,manual,,
+9.OTC Trades,9.1. OTC selling metals,"9.1.2.2 OTC, selling metals, offer execution","OTC, selling metals, offer execution",9.1.2.2,manual,,
+0.System,0.1. Manual correction,0.1.1.2 Manual correction due system error,Manual correction due system error,0.1.1.2,manual,,
+0.System,0.2. Migration of assets,0.2.1.2 Migration of assets between accounts of client,Migration of assets between accounts of client,0.2.1.2,manual,,
