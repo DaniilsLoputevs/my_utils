@@ -32,7 +32,8 @@ public class StrictCheckOfValuePresence {
         }
         
         public String getUserNameMy2(Long userId) {
-            return findById(userId).orElseThrow(() -> new IllegalStateException("User not found")).getName();
+            return findById(userId).map(User::getName).orElseThrow(() -> new IllegalStateException("User not found"));
+//            return findById(userId).orElseThrow(() -> new IllegalStateException("User not found")).getName();
         }
         
         public void deleteUserMy1(Long userId) {
