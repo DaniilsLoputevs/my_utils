@@ -13,19 +13,27 @@ import java.util.Set;
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.FileVisitResult.SKIP_SUBTREE;
 
+/**
+ * доп глянкть.
+ * C:\Users\Admin\AppData\Roaming\Skype\live#3aalenkayledark\media_messaging\emo_cache_v2
+ * C:\Users\Admin\AppData\Roaming\Skype\live#3aalenkayledark\media_messaging\media_cache_v3
+ * users - documents
+ * users - pictures
+ */
 public class ImgSearcher {
     public static final String
             PATH_TG_DOWNLOAD = "C:\\Users\\aleks\\Downloads\\Telegram Desktop",
             PATH_ROOT_DISK_C = "C:\\",
             PATH_ROOT_DISK_D = "D:\\",
-            PATH_ROOT_DISK_C__USERS = "C:\\Users";
+            PATH_ROOT_DISK_C__USERS = "C:\\Users",
+            PATH_RSL_OUTPUT = "C:\\Users\\Admin\\Desktop\\ImgSearch - cache.txt";
 
 
     // C:\Users\ALEX\Pictures
     public static void main(String[] args) throws IOException {
         MyFileVisitor visitor = new MyFileVisitor();
-//        Files.walkFileTree(Path.of(PATH_ROOT_DISK_C), visitor);
-        Files.walkFileTree(Path.of(PATH_ROOT_DISK_D), visitor);
+        Files.walkFileTree(Path.of(PATH_ROOT_DISK_C), visitor);
+//        Files.walkFileTree(Path.of(PATH_ROOT_DISK_D), visitor);
 
 //        System.out.println(visitor.images);
         System.out.println();
@@ -37,6 +45,7 @@ public class ImgSearcher {
         System.out.println("images: " + visitor.images.size());
         System.out.println("exceptions: " + visitor.exceptions.size());
 
+        Files.write(Path.of(PATH_RSL_OUTPUT), visitor.images);
     }
 
     public static class MyFileVisitor extends SimpleFileVisitor<Path> {
@@ -52,7 +61,7 @@ public class ImgSearcher {
         );
 
         @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
             String absPath = file.toAbsolutePath().toString();
 //            System.out.println(absPath);
 
@@ -60,17 +69,12 @@ public class ImgSearcher {
             String ext = (indexOfFileExtDot > 0) ? absPath.substring(indexOfFileExtDot) : "";
 
             if (findExtensions.contains(ext)) images.add(absPath);
-//            if (absPath.endsWith(".png") ||absPath.endsWith(".jpg") ||absPath.endsWith(".jpeg")) {
-//                System.out.println("found: " + file.toAbsolutePath());
-//                images.add(absPath);
-//            }
-            filesVisited++;
-            String msg = String.format("files visited at this moment: %s exceptions caught: %s",
-                    filesVisited, exceptions.size());
-            System.out.print("\r" + msg);
-//            System.out.print("\r files visited at this moment: " + filesVisit);
 
-//            if (absPath.contains("IntelliJ")) return SKIP_SUBTREE;
+            filesVisited++;
+            String msg = String.format(" at this moment >> files visited: %s exceptions caught: %s images founded: %s",
+                    filesVisited, exceptions.size(), images.size());
+            System.out.print("\r" + msg);
+
             return CONTINUE;
         }
 
@@ -84,8 +88,8 @@ public class ImgSearcher {
                     || absPath.startsWith("C:\\Windows")
                     || absPath.startsWith("C:\\ProgramData")
 
-                    || absPath.startsWith("C:\\Users\\ALEX\\AppData\\Roaming")
-                    || absPath.startsWith("C:\\Users\\ALEX\\AppData\\Local\\Google\\Chrome")
+//                    || absPath.startsWith("C:\\Users\\ALEX\\AppData\\Roaming")
+//                    || absPath.startsWith("C:\\Users\\ALEX\\AppData\\Local\\Google\\Chrome")
                     || absPath.startsWith("C:\\Program Files (x86)\\Windows Sidebar")
                     || absPath.startsWith("C:\\Program Files (x86)\\Common Files")
                     || absPath.startsWith("C:\\Program Files (x86)\\ContentaConverter-PREMIUM")
@@ -98,12 +102,23 @@ public class ImgSearcher {
                     || absPath.startsWith("C:\\Program Files\\Canon\\IJ Manual\\MG3000 series")
                     || absPath.startsWith("C:\\Program Files\\AVAST Software\\Avast")
                     || absPath.startsWith("C:\\Users\\Public\\Pictures\\Sample Pictures")
-                    || absPath.startsWith("D:\\Ilona-Alex\\GIMP 2\\share")
-                    || absPath.startsWith("D:\\Ilona-Alex\\GIMP 2\\32")
-                    || absPath.startsWith("D:\\Ilona-Alex\\Games\\Hyper Light Drifter")
-                    || absPath.startsWith("D:\\Ilona-Alex\\Desktop\\Музыка_")
+                    
+//                    || absPath.startsWith("D:\\Ilona-Alex\\GIMP 2\\share")
+//                    || absPath.startsWith("D:\\Ilona-Alex\\GIMP 2\\32")
+//                    || absPath.startsWith("D:\\Ilona-Alex\\Games\\Hyper Light Drifter")
+//                    || absPath.startsWith("D:\\Ilona-Alex\\Desktop\\Музыка_")
 
-                    || absPath.startsWith("C:\\Users\\ALEX\\Desktop\\25.06.2022 сука все фото") // target
+//                    || absPath.startsWith("C:\\Users\\ALEX\\Desktop\\25.06.2022 сука все фото") // target
+                    || absPath.startsWith("C:\\Danik\\Save All Files\\Arts")
+                    || absPath.startsWith("C:\\Users\\Admin\\Desktop\\photoes - from")
+                    || absPath.startsWith("C:\\Users\\Admin\\go")
+                    || absPath.startsWith("C:\\Users\\Admin\\getting-started\\docs")
+                    || absPath.startsWith("C:\\Users\\Admin\\Downloads\\Telegram Desktop")
+                    || absPath.startsWith("C:\\Users\\Admin\\Documents\\My Games")
+                    || absPath.startsWith("C:\\Users\\Admin\\Desktop\\Desktop- download")
+                    || absPath.startsWith("C:\\Users\\Admin\\Desktop\\CODING")
+                    || absPath.startsWith("C:\\Users\\Admin\\AppData\\Roaming\\Zoom")
+                    || absPath.startsWith("C:\\Users\\Admin\\AppData\\Roaming\\Skype")
 
                     || absPath.startsWith("C:\\Users\\Public\\AccountPictures\\") // ignore
                     || absPath.contains("IntelliJ")
@@ -115,6 +130,7 @@ public class ImgSearcher {
                     || absPath.contains("\\Local\\Programs\\")
                     || absPath.contains("\\Local\\Temp\\")
                     || absPath.contains("\\AppData\\Local\\")
+                    || absPath.contains("\\AppData\\Roaming\\Zoom")
 //                    || absPath.contains("C:\\ProgramData\\Microsoft")
             ) return SKIP_SUBTREE;
             return CONTINUE;

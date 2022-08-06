@@ -10,8 +10,8 @@ import java.util.Optional;
  * TODO : Export to CSV
  * TODO : -- formatting
  * TODO : From Samsung ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- * TODO : From Huawei
- * TODO : From Nokia Sinij(Mama)
+ * TODO : From Huawei ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * TODO : From Nokia Sinij(Mama) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  * TODO : From aleksandLoputevs@gmail.com ^^^^^^^^^^^^^^^^^^^^
  * TODO : From loputevi67@gmail.com ^^^^^^^^^^^^^^^^^^^^^^^^^^
  * TODO : From
@@ -130,9 +130,10 @@ public class Main {
     }
     
     private static String getAbsPathOfResource(String resourcePath) {
-        val rsl =  Optional.ofNullable(Main.class.getClassLoader().getResource(resourcePath))
-                .map(URL::getPath).orElseThrow(() -> new RuntimeException("Resource not found!"));
-        return rsl.substring(1);
+        return Optional.ofNullable(Main.class.getClassLoader().getResource(resourcePath))
+                .map(URL::getPath)
+                .orElseThrow(() -> new RuntimeException("Resource not found!"))
+                .substring(1);
     }
     
 }

@@ -3,12 +3,14 @@ package family.contacts;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.val;
 import smallthings.PrintTable;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class ContactsBase {
@@ -50,28 +52,39 @@ public class ContactsBase {
     public void printBase() {
         val copy = new TreeMap<>(base);
         Optional.ofNullable(export).ifPresent(exp -> exp.keySet().forEach(copy::remove));
+        val number = new AtomicInteger();
         
         val data = copy.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
+                .map(it -> new PrintContact(number.getAndIncrement(), it.getKey(), listContactJoinToString(it.getValue())))
                 .collect(Collectors.toList());
         PrintTable.of(data)
                 .name("CONTACTS BASE")
-                .addColumn("PHONE", "-20", Map.Entry::getKey)
-                .addColumn("NAME", "-30", this::entryGetName)
+                .addColumn("№", "-4", PrintContact::getNumber)
+                .addColumn("PHONE", "-20", PrintContact::getPhone)
+                .addColumn("NAME", "-30", PrintContact::getName)
                 .print();
+//        PrintTable.of(data)
+//                .name("CONTACTS BASE")
+//                .addColumn("PHONE", "-20", Map.Entry::getKey)
+//                .addColumn("NAME", "-30", this::entryGetName)
+//                .print();
     }
     
     public void printImportedMap() {
         val copy = new TreeMap<>(printMap);
         Optional.ofNullable(export).ifPresent(exp -> exp.keySet().forEach(copy::remove));
-        
+        val number = new AtomicInteger();
+    
         val data = copy.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
+                .map(it -> new PrintContact(number.getAndIncrement(), it.getKey(), it.getValue()))
                 .collect(Collectors.toList());
         PrintTable.of(data)
                 .name("CONTACTS BASE")
-                .addColumn("PHONE", "-20", Map.Entry::getKey)
-                .addColumn("NAME", "-30", Map.Entry::getValue)
+                .addColumn("№", "-4", PrintContact::getNumber)
+                .addColumn("PHONE", "-20", PrintContact::getPhone)
+                .addColumn("NAME", "-30", PrintContact::getName)
                 .print();
     }
     
@@ -86,5 +99,13 @@ public class ContactsBase {
     public static class MergeResult {
         private final String from;
         private final int mergedUnique;
+    }
+    
+    @Data
+    @RequiredArgsConstructor
+    class PrintContact {
+        private final int number;
+        private final String phone;
+        private final String name;
     }
 }
