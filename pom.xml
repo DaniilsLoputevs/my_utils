@@ -19,6 +19,7 @@
         <module>logger</module>
         <module>RSQL</module>
         <module>extra_study</module>
+        <module>Small_things</module>
         <module>java_common_data</module> <!-- dropped -->
     </modules>
 
