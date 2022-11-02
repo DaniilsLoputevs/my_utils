@@ -31,3 +31,4 @@ hs_err_pid*
 # Manual experiment class
 /src/main/java/ru/job4j/cinema/ahelptools/*
 /my_reflection_API.iml
+/Other_code/target/

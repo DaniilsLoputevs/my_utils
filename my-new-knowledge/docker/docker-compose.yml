@@ -1,0 +1,20 @@
+version: '3.8'
+
+# todo - как оно всё понимаем namespace? fix my_utils_my_utils_postgres_1_1 -> my_utils_postgres_1
+# todo - как подключится?
+# todo -
+services:
+  postgres_1:
+    image: postgres:15
+    ports:
+    - 5432:5432
+    environment:
+#      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=my_utils
+    volumes:
+      - ./docker/storage/postgres_1:/var/lib/postgresql/data
+#      - ./storage/postgres:/var/lib/postgresql/data
+#    volumes:
+#      - ./storage/postgres:
+#    networks:
