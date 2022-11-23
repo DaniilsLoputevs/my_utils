@@ -4,7 +4,6 @@ import lombok.val;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /** "2+(3*4-5+(6+4)+(10-7*2))-5" */
 
@@ -29,18 +28,19 @@ public class SmartCalculatorV2 {
         rsl.forEach((k, v) -> System.out.println(v.name + "  ---  " + v.expression));
         
         // 2+$exp1-5
-        // (3*4-5+(6+4)+(10-7*2)) || 3*4-5+(6+4)+(10-7*2)
+        // *4-5+(6+4)+(10-7*2)
     }
     
-    public LinkedHashMap<String, ExpressionTemp> parse(String exp) {
-        val rsl = new LinkedHashMap<String, ExpressionTemp>();
-        val stack = new ArrayList<ExpressionTemp>();
+    public LinkedHashMap<String, ScopeExpression> parse(String expression) {
+        val rsl = new LinkedHashMap<String, ScopeExpression>();
+        val stack = new ArrayList<ScopeExpression>();
         
-        val rootExpContainer = new ExpressionTemp("${exp_0}", exp);
+        val rootExpContainer = new ScopeExpression("${exp_0}", expression);
         stack.add(rootExpContainer);
         rsl.put(rootExpContainer.name, rootExpContainer);
         
-        if (exp.indexOf('(') == -1) return rsl;
+        // if expression doesn't contains sub-expression(brackets) return root expression.
+        if (expression.indexOf('(') == -1) return rsl;
         
         for (int i = 0, expNamePostfix = 1; i != stack.size(); ) {
             val currentExpContainer = stack.get(i);
@@ -48,7 +48,7 @@ public class SmartCalculatorV2 {
             val openBracketIndex = parseExp.indexOf('(');
             val closeBracketIndex = indexOfBracketPair(parseExp, openBracketIndex);
             
-            // if this exp not contains sub-exp move to next exp or break loop by increment index
+            // if this exp doesn't contains sub-exp move to next exp or break loop by increment index
             if (openBracketIndex == -1 && closeBracketIndex == -1) {
                 i++;
                 continue;
@@ -57,7 +57,7 @@ public class SmartCalculatorV2 {
             // (6+4)+(10-7*2)
             val subExpName = "${exp_" + expNamePostfix++ + '}';
             val subExpBody = parseExp.substring(openBracketIndex + 1, closeBracketIndex);
-            val bracketSubExp = new ExpressionTemp(subExpName, subExpBody);
+            val bracketSubExp = new ScopeExpression(subExpName, subExpBody);
             
             val currentExp = parseExp.substring(0, openBracketIndex) + subExpName + parseExp.substring(closeBracketIndex + 1);
             currentExpContainer.expression = currentExp;
@@ -71,7 +71,7 @@ public class SmartCalculatorV2 {
             System.out.println("subExpName  =  " + subExpName);
             System.out.println("subExpBody  =  " + subExpBody);
             
-            // if current exp contains bracket - parse this exp again but new version
+            // if current exp contains more bracket(s) - parse this exp again but new version
             if (currentExp.contains("(")) currentExpContainer.expression = currentExp;
             else i++;
         }
@@ -92,19 +92,4 @@ public class SmartCalculatorV2 {
         return -1;
     }
     
-    static class ExpressionTemp {
-        String name;
-        String expression; // (3*4-5+$epx2 + $epx3)
-        List<ExpressionTemp> executionDependsOnExpressions = new ArrayList<>(); // [$epx2, $epx3]
-        
-        
-        public ExpressionTemp(String name, String expression) {
-            this.name = name;
-            this.expression = expression;
-        }
-        
-        @Override public String toString() {
-            return expression + " --- " + name;
-        }
-    }
 }
