@@ -1,0 +1,110 @@
+package features.calculator.v2;
+
+import lombok.val;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+/** "2+(3*4-5+(6+4)+(10-7*2))-5" */
+
+// "2+(3*4-5+(6+4)+(10-7*2))-5"
+// $root = 2+${exp_1}-5
+// $exp1 = (3*4-5+${epx_2} + ${epx_3})
+// $epx2 = (6+4)
+// $epx3 = (10-7*2)
+public class SmartCalculatorV2 {
+    private static final String
+            NUMBERS_CHARS = "0123456789.",
+            OPERATORS_CHARS = "+-*/"
+//            NUMBERS_CHARS = "+-*/^%", // expand version
+                    ;
+    
+    
+    public static void main(String[] args) {
+        val parser = new SmartCalculatorV2();
+        val rsl = parser.parse("2+(3*4-5+(6+4)+(10-7*2))-5");
+        
+        System.out.println();
+        rsl.forEach((k, v) -> System.out.println(v.name + "  ---  " + v.expression));
+        
+        // 2+$exp1-5
+        // (3*4-5+(6+4)+(10-7*2)) || 3*4-5+(6+4)+(10-7*2)
+    }
+    
+    public LinkedHashMap<String, ExpressionTemp> parse(String exp) {
+        val rsl = new LinkedHashMap<String, ExpressionTemp>();
+        val stack = new ArrayList<ExpressionTemp>();
+        
+        val rootExpContainer = new ExpressionTemp("${exp_0}", exp);
+        stack.add(rootExpContainer);
+        rsl.put(rootExpContainer.name, rootExpContainer);
+        
+        if (exp.indexOf('(') == -1) return rsl;
+        
+        for (int i = 0, expNamePostfix = 1; i != stack.size(); ) {
+            val currentExpContainer = stack.get(i);
+            val parseExp = currentExpContainer.expression;
+            val openBracketIndex = parseExp.indexOf('(');
+            val closeBracketIndex = indexOfBracketPair(parseExp, openBracketIndex);
+            
+            // if this exp not contains sub-exp move to next exp or break loop by increment index
+            if (openBracketIndex == -1 && closeBracketIndex == -1) {
+                i++;
+                continue;
+            }
+            
+            // (6+4)+(10-7*2)
+            val subExpName = "${exp_" + expNamePostfix++ + '}';
+            val subExpBody = parseExp.substring(openBracketIndex + 1, closeBracketIndex);
+            val bracketSubExp = new ExpressionTemp(subExpName, subExpBody);
+            
+            val currentExp = parseExp.substring(0, openBracketIndex) + subExpName + parseExp.substring(closeBracketIndex + 1);
+            currentExpContainer.expression = currentExp;
+            currentExpContainer.executionDependsOnExpressions.add(bracketSubExp);
+            
+            rsl.put(subExpName, bracketSubExp);
+            stack.add(bracketSubExp);
+    
+    
+            System.out.println("currentExp  =  " + currentExp);
+            System.out.println("subExpName  =  " + subExpName);
+            System.out.println("subExpBody  =  " + subExpBody);
+            
+            // if current exp contains bracket - parse this exp again but new version
+            if (currentExp.contains("(")) currentExpContainer.expression = currentExp;
+            else i++;
+        }
+        
+        return rsl;
+    }
+    
+    private int indexOfBracketPair(String source, int indexOpenBracketChar) {
+        if (indexOpenBracketChar == -1) return -1;
+        int level = 0;
+        val chars = source.toCharArray();
+        for (int i = indexOpenBracketChar + 1; i < chars.length; i++) {
+            val c = chars[i];
+            if (c == '(') level++;
+            if (c == ')' && level == 0) return i;
+            if (c == ')') level--;
+        }
+        return -1;
+    }
+    
+    static class ExpressionTemp {
+        String name;
+        String expression; // (3*4-5+$epx2 + $epx3)
+        List<ExpressionTemp> executionDependsOnExpressions = new ArrayList<>(); // [$epx2, $epx3]
+        
+        
+        public ExpressionTemp(String name, String expression) {
+            this.name = name;
+            this.expression = expression;
+        }
+        
+        @Override public String toString() {
+            return expression + " --- " + name;
+        }
+    }
+}
