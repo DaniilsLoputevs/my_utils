@@ -11,7 +11,6 @@ import org.junit.Test;
  * 2 - ^  - exponentiation
  * 3 - /* - Multiplication/Division
  * 4 - +- - Addition/Subtraction
- * todo - validation - brackets pair
  */
 import static org.junit.Assert.*;
 
@@ -47,5 +46,8 @@ public class SmartCalculatorTest {
     
     @Test public void brackets2() {
         test("56", "2+( ( (1+3)+(4+4)+2 ) + (6+7) )*2");
+    }
+    @Test public void bracketsMiss() {
+        test("Error: found brackets (open=4, close=3)", "2+( ( (1+3)+(4+4)+2 ) + 6+7*2");
     }
 }

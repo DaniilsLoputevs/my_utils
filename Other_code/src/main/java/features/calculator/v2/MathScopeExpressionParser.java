@@ -58,7 +58,7 @@ public class MathScopeExpressionParser {
             
             rsl.put(subExpName, bracketSubExp);
             stack.add(bracketSubExp);
-    
+            
             System.out.println("currentExp  =  " + currentExp);
             System.out.println("subExpName  =  " + subExpName);
             System.out.println("subExpBody  =  " + subExpBody);

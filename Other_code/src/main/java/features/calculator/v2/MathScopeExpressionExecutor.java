@@ -33,8 +33,6 @@ public class MathScopeExpressionExecutor {
         if (exprInfo.getAllLevelsOperatorCount() == 0) return new BigDecimal(exprInfo.expressionCurrent);
         
         // step 1 - find all middle-Level operators
-//        executeAllOperatorsOnLevel(exprInfo, ExecutionOperatorLevel.MIDDLE);
-//        executeAllOperatorsOnLevel(exprInfo, ExecutionOperatorLevel.LOW);
         executeAllOperatorsOnLevelV2(exprInfo, ExecutionOperatorLevel.MIDDLE);
         executeAllOperatorsOnLevelV2(exprInfo, ExecutionOperatorLevel.LOW);
         
@@ -42,53 +40,6 @@ public class MathScopeExpressionExecutor {
         System.out.println("exprInfo.expressionCurrent  = " + exprInfo.expressionCurrent);
         return new BigDecimal(exprInfo.expressionCurrent);
     }
-
-//    private void executeAllOperatorsOnLevel(ExprExeInfo exprInfo, ExecutionOperatorLevel level) {
-//        while (level.operatorCounterGetter.apply(exprInfo) != 0) {
-//            var currExp = exprInfo.expressionCurrent;
-//            int prevOperatorIndex = -1;
-//            boolean isPrevOperatorFound = false;
-//
-//            for (int i = 0; i < currExp.length(); i++) {
-//                val c = currExp.charAt(i);
-//                val operator = MathOperator.of(c);
-//
-//                /* skip number when search operator char. */
-//                if (operator == null) continue;
-//
-//                /* skip not our level operators but remember that we found it. */
-//                if (!level.operators.contains(operator)) {
-//                    prevOperatorIndex = i;
-//                    isPrevOperatorFound = true;
-//                    continue;
-//                }
-//                /* if we find our operator, we don't need a next iterations of for loop, just do work and break. */
-//
-//                // 5-5+3*10/4-2"
-//                val leftNum = extractWholeNumberFromString(currExp, prevOperatorIndex);
-//                val rightNum = extractWholeNumberFromString(currExp, i);
-//                val rsl = operator.operatorDecimal.apply(leftNum, rightNum);
-//
-//                level.operatorCounterDecrementFunc.accept(exprInfo);
-//
-//                val nextOperatorIndex = (isPrevOperatorFound ? prevOperatorIndex + 1 : 0)
-//                        + 1 // +1 for operator char offset
-//                        + (leftNum.toString().length())
-//                        + (rightNum.toString().length());
-//
-//                exprInfo.expressionCurrent = (!isPrevOperatorFound ? "" : currExp.substring(0, prevOperatorIndex + 1))
-//                        + rsl + currExp.substring(nextOperatorIndex);
-//
-//                System.out.println("nextOperatorIndex          =  " + nextOperatorIndex);
-//                System.out.println("exprInfo.expressionCurrent =  " + exprInfo.expressionCurrent);
-//
-//                exprInfo.executionHistory.add(new ExpressionExecuteStep(
-//                        currExp, exprInfo.expressionCurrent, operator, leftNum, rightNum, rsl));
-//
-//                break;
-//            }
-//        }
-//    }
     
     private void executeAllOperatorsOnLevelV2(ExprExeInfo exprInfo, ExecutionOperatorLevel level) {
         while (level.operatorCounterGetter.apply(exprInfo) != 0) {
@@ -96,15 +47,13 @@ public class MathScopeExpressionExecutor {
             
             val indexes = findOperatorIndexesForExpr(currExpr, level.operators);
             val operator = MathOperator.of(currExpr.charAt(indexes.currOperatorIndex));
-            val leftNum = parseNumber(currExpr, indexes.prevOperatorIndex, indexes.currOperatorIndex);
-            val rightNum = parseNumber(currExpr, indexes.currOperatorIndex + 1, indexes.nextOperatorIndex);
+            val leftNum = Numbers.parseNumber(currExpr, indexes.prevOperatorIndex, indexes.currOperatorIndex);
+            val rightNum = Numbers.parseNumber(currExpr, indexes.currOperatorIndex + 1, indexes.nextOperatorIndex);
             val rsl = operator.func.apply(leftNum, rightNum);
             
             level.operatorCounterDecrementFunc.accept(exprInfo);
-            // escape case: prev == 1 -- it's
+            // escape case: prev == 1 -- it's means prevOperator is Minus for Negative number.
             val prev = indexes.prevOperatorIndex == 0 ? 0 : indexes.prevOperatorIndex + 1;
-//            exprInfo.expressionCurrent = (!isPrevOperatorFound ? "" : currExpr.substring(0, prevOperatorIndex + 1))
-//                    + rsl + currExpr.substring(nextOperatorIndex);
             exprInfo.expressionCurrent = currExpr.substring(0, prev) + rsl + currExpr.substring(indexes.nextOperatorIndex);
             
             exprInfo.executionHistory.add(new ExpressionExecuteStep(
@@ -116,26 +65,6 @@ public class MathScopeExpressionExecutor {
             System.out.println("exprInfo.expressionCurrent =  " + exprInfo.expressionCurrent);
             
         }
-    }
-    
-    /**
-     * @param expr       -
-     * @param startIndex start point for collection number chars.
-     * @return -
-     */
-    // todo - rewrite to findOperatorsIndex(prev, our, next operators)
-    private BigDecimal extractWholeNumberFromString(String expr, int startIndex) {
-        val numberChars = new StringBuilder();
-        for (int i = startIndex + 1; i < expr.length(); i++) {
-            val c = expr.charAt(i);
-            // todo - parse negative nums
-            val operator = MathOperator.of(c);
-            if (operator != null)
-                if (operator == MINUS) numberChars.append(c);
-                else break;
-            if (isNumberChar(c)) numberChars.append(c);
-        }
-        return new BigDecimal(numberChars.toString());
     }
     
     // todo tests for many cases
@@ -169,19 +98,21 @@ public class MathScopeExpressionExecutor {
         return new OperatorIndexes(prev, curr, next);
     }
     
-    private BigDecimal parseNumber(String expr, int startIndex, int endIndex) {
-        return new BigDecimal(expr.substring(startIndex, endIndex));
+
+    private static class Numbers {
+        private static BigDecimal parseNumber(String expr, int startIndex, int endIndex) {
+            return new BigDecimal(expr.substring(startIndex, endIndex));
+        }
+    
+    
+        private static boolean isNumberChar(char c) {
+            return NUMBERS_CHARS.contains(c);
+        }
+    
+        private static final Set<Character> NUMBERS_CHARS = "0123456789."
+                .chars().mapToObj(c -> (char) c)
+                .collect(Collectors.toUnmodifiableSet());
     }
-    
-    
-    private static boolean isNumberChar(char c) {
-        return NUMBERS_CHARS.contains(c);
-    }
-    
-    private static final Set<Character> NUMBERS_CHARS = "0123456789."
-            .chars().mapToObj(c -> (char) c)
-            .collect(Collectors.toUnmodifiableSet());
-    
     
     @Getter
     private static class ExprExeInfo {
@@ -203,6 +134,7 @@ public class MathScopeExpressionExecutor {
         
         public int getAllLevelsOperatorCount() { return middleLevelOperatorsCount + lowLevelOperatorsCount;}
         
+        // todo - test - что-то я не уверен что оо збс работает, но да оно работает, НО КАК?!
         public static ExprExeInfo of(String exp) {
             val rsl = new ExprExeInfo(exp);
             rsl.expressionCurrent = exp;
