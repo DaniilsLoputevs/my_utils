@@ -1,6 +1,7 @@
 package features.calculator.v1;
 
 
+import features.calculator.SmartMathCalculator;
 import lombok.AllArgsConstructor;
 import lombok.val;
 //import lombok.var;
@@ -9,14 +10,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.function.BinaryOperator;
 
-public class SmartCalculator {
+public class SmartCalculator implements SmartMathCalculator {
     private static final String
             NUMBERS_CHARS = "0123456789.",
             OPERATORS_CHARS = "+-*/"
 //            NUMBERS_CHARS = "+-*/^%", // expand version
     ;
     
-    public String accept(String mathExpression) {
+    @Override public String accept(String mathExpression) {
         val expression = clearEmptySpaces(mathExpression);
         if (!isFromNumberChar(expression)) return "Invalid: expression start from NuN";
         
